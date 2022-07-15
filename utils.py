@@ -15,47 +15,44 @@ def load_candidates_from_json(file_adress: str):
     return candidates
 
 
-def get_candidate(candidates, id) -> list[dict] | None:
+def get_candidate(candidates_, id) -> dict | None:
     """
     возвращает кандидата по
-    :param candidates:
+    :param candidates_:
     :param id:
     :return:
     """
 
-    for candidat in candidates:
+    for candidat in candidates_:
         if id == candidat["id"]:
-            result = [candidat]
+            result = candidat
             return result
-        else:
-            return None
 
 
-def get_candidate_by_name(candidates, candidat_name) -> dict | None:
+def get_candidate_by_name(candidates_, candidat_name) -> list[dict] | None:
     """
     возвращает кандидата по
-    :param candidates:
+    :param candidates_:
     :param candidat_name:
     :return:
     """
+    result = []
+    for candidat in candidates_:
+        if candidat_name.lower() in candidat["name"].lower():
+            result.append(candidat)
+    return result
 
-    for candidat in candidates:
-        if candidat_name.lower() == candidat["name"].lower():
-            return candidat
-        else:
-            return None
 
-
-def get_candidate_by_skill(candidates: list[dict], skill_name: str) -> list[dict]:
+def get_candidate_by_skill(candidates_: list[dict], skill_name: str) -> list[dict]:
     """
     функция возвращает кандидатов по заданному навыку
-    :param candidates:
+    :param candidates_:
     :param skill_name:
     :return:
     """
     result = []
 
-    for candidat in candidates:
+    for candidat in candidates_:
         # убираем пробелы и преобразуем строку с навыками в список
         skill = candidat['skills'].lower().replace(' ', '').split(",")
         # подготавливаем запрос по скилам для условия, убираем пробелы и переводим в нижний регистр
@@ -65,12 +62,3 @@ def get_candidate_by_skill(candidates: list[dict], skill_name: str) -> list[dict
             result.append(candidat)
 
     return result
-
-
-# adress = "https://jsonkeeper.com/b/89KW"
-# #
-# candidates = load_candidates_from_json(adress)
-#
-# print(candidates)
-#
-# print(get_candidate_by_name(candidates, 'adela hendricks'))
