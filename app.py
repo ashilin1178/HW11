@@ -10,7 +10,7 @@ candidates = utils.load_candidates_from_json(file_adress)
 
 @app.route('/')
 def get_list_all():
-    return render_template(candidates)
+    return render_template('list.html', candidates=candidates)
 
 
 if __name__ == '__main__':
